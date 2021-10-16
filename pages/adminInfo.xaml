@@ -1,0 +1,31 @@
+﻿<Page x:Class="WpfApp.pages.adminInfo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="adminInfo">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <DataGrid Name="dgUsers" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Логин" Binding="{Binding login}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Пароль" Binding="{Binding password}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding users.name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Роль" Binding="{Binding roles.role}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding users.dr}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Пол" Binding="{Binding users.genders.gender}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Name="btnSave" Content="Сохранить изменения" Click="btnSave_Click" Style="{StaticResource BTN}"></Button>
+                <Button Name="btnDeleteUser" Content="Удалить пользователя" Click="btnDeleteUser_Click" Style="{StaticResource BTN}"></Button>
+                <Button Name="btnChangeUser" Content="Изменить учетные данные пользователя" Click="btnChangeUser_Click"></Button>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
