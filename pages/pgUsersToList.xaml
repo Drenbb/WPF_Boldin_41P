@@ -35,20 +35,28 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="64*"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <GroupBox Header="От">
-                <TextBox Name="tbStart" Width="50"></TextBox>
+        <DockPanel>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <GroupBox Header="От">
+                    <TextBox Name="tbStart" Width="50"></TextBox>
+                </GroupBox>
+                <GroupBox Header="До">
+                    <TextBox Name="tbFinish" Width="50"></TextBox>
+                </GroupBox>
+                <GroupBox Header="Дата рождения">
+                    <DatePicker Name="dpDate"></DatePicker>
+                </GroupBox>
+                <GroupBox Header="Пол">
+                    <ComboBox Name="cbGenderS" Width="100"></ComboBox>
+                </GroupBox>
+                <Button Name="btnSort" Content="Отфильтровать" Click="btnSort_Click" Width="100" Margin="5"></Button>
+                <Button Name="btnRset" Content="Сбросить" Click="btnRset_Click" Width="60" Margin="5"></Button>
+            </StackPanel>
+            <GroupBox Header="Создать пользователя" HorizontalAlignment="Right">
+                <Button Content="Создать" Name="btnCreateUser" Click="btnCreateUser_Click"></Button>
             </GroupBox>
-            <GroupBox Header="До">
-                <TextBox Name="tbFinish" Width="50"></TextBox>
-            </GroupBox>
-            <GroupBox Header="Дата рождения">
-                <DatePicker Name="dpDate"></DatePicker>
-            </GroupBox>
-            <Button Name="btnSort" Content="Отфильтровать" Click="btnSort_Click" Width="100" Margin="5"></Button>
-            <Button Name="btnRset" Content="Сбросить" Click="btnRset_Click" Width="60" Margin="5"></Button>
-        </StackPanel>
+        </DockPanel>
+        
 
         <ListBox Name="lbUsers" ItemTemplate="{StaticResource dtOutputUser}" Grid.RowSpan="2" Grid.Row="1"></ListBox>
     </Grid>

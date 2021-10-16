@@ -26,6 +26,11 @@ namespace WpfApp.pages
             InitializeComponent();
             users = BaseConnect.BaseModel.users.ToList();
             lbUsers.ItemsSource = users;
+            List<genders> genders = BaseConnect.BaseModel.genders.ToList();
+            cbGenderS.ItemsSource = genders;
+            cbGenderS.SelectedValuePath = "id";
+            cbGenderS.DisplayMemberPath = "gender";
+           
         }
 
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
@@ -53,11 +58,28 @@ namespace WpfApp.pages
                 int start = Convert.ToInt32(tbStart.Text) - 1;
                 int finish = Convert.ToInt32(tbFinish.Text);
                 listUsers = users.Skip(start).Take(finish - start).ToList();
-               
+
             }
             if (dpDate.SelectedDate != null)
             {
                 listUsers = users.Where(x => x.dr == (DateTime)dpDate.SelectedDate).ToList();
+            }
+            
+
+            if (cbGenderS.SelectedItem != null)
+            {
+                if (cbGenderS.SelectedValue.ToString()=="1")
+                {
+                    listUsers = users.Where(x => x.gender ==1).ToList();
+                }
+                if (cbGenderS.SelectedValue.ToString() == "2")
+                {
+                    listUsers = users.Where(x => x.gender == 2).ToList();
+                }
+                if (cbGenderS.SelectedValue.ToString() == "3")
+                {
+                    listUsers = users.Where(x => x.gender == 3).ToList();
+                }
             }
             lbUsers.ItemsSource = listUsers;
         }
@@ -75,7 +97,11 @@ namespace WpfApp.pages
             BaseConnect.BaseModel.auth.Remove(CurrentUser);
             BaseConnect.BaseModel.SaveChanges();
             MessageBox.Show("Пользователь успешно удален!");
-       
+        }
+
+        private void btnCreateUser_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPages.MainFrame.Navigate(new reg());
         }
     }
 }
