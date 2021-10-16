@@ -20,10 +20,12 @@ namespace WpfApp.pages
     /// </summary>
     public partial class pgUsersToList : Page
     {
+        List<users> users;
         public pgUsersToList()
         {
             InitializeComponent();
-            lbUsers.ItemsSource = BaseConnect.BaseModel.users.ToList();
+            users = BaseConnect.BaseModel.users.ToList();
+            lbUsers.ItemsSource = users;
         }
 
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
@@ -40,6 +42,40 @@ namespace WpfApp.pages
             int id = Convert.ToInt32(btn.Uid);
             auth CurrentUser = BaseConnect.BaseModel.auth.FirstOrDefault(x => x.id == id);
             LoadPages.MainFrame.Navigate(new ChangeUser(CurrentUser));
+        }
+
+        private void btnSort_Click(object sender, RoutedEventArgs e)
+        {
+            List<users> listUsers = users;
+
+            if (tbStart.Text != "" && tbFinish.Text != "")
+            {
+                int start = Convert.ToInt32(tbStart.Text) - 1;
+                int finish = Convert.ToInt32(tbFinish.Text);
+                listUsers = users.Skip(start).Take(finish - start).ToList();
+               
+            }
+            if (dpDate.SelectedDate != null)
+            {
+                listUsers = users.Where(x => x.dr == (DateTime)dpDate.SelectedDate).ToList();
+            }
+            lbUsers.ItemsSource = listUsers;
+        }
+
+        private void btnRset_Click(object sender, RoutedEventArgs e)
+        {
+            lbUsers.ItemsSource = users;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            int id = Convert.ToInt32(btn.Uid);
+            auth CurrentUser = BaseConnect.BaseModel.auth.FirstOrDefault(x => x.id == id);
+            BaseConnect.BaseModel.auth.Remove(CurrentUser);
+            BaseConnect.BaseModel.SaveChanges();
+            MessageBox.Show("Пользователь успешно удален!");
+       
         }
     }
 }
