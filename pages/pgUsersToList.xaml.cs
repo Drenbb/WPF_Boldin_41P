@@ -64,22 +64,10 @@ namespace WpfApp.pages
             {
                 listUsers = users.Where(x => x.dr == (DateTime)dpDate.SelectedDate).ToList();
             }
-            
-
             if (cbGenderS.SelectedItem != null)
             {
-                if (cbGenderS.SelectedValue.ToString()=="1")
-                {
-                    listUsers = users.Where(x => x.gender ==1).ToList();
-                }
-                if (cbGenderS.SelectedValue.ToString() == "2")
-                {
-                    listUsers = users.Where(x => x.gender == 2).ToList();
-                }
-                if (cbGenderS.SelectedValue.ToString() == "3")
-                {
-                    listUsers = users.Where(x => x.gender == 3).ToList();
-                }
+
+                listUsers = users.Where(x => x.gender == Convert.ToInt32(cbGenderS.SelectedValue)).ToList();
             }
             lbUsers.ItemsSource = listUsers;
         }
