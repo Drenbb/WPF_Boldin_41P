@@ -30,7 +30,7 @@ namespace WpfApp.pages
             cbGenderS.ItemsSource = genders;
             cbGenderS.SelectedValuePath = "id";
             cbGenderS.DisplayMemberPath = "gender";
-           
+
         }
 
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
@@ -51,23 +51,24 @@ namespace WpfApp.pages
 
         private void btnSort_Click(object sender, RoutedEventArgs e)
         {
-            List<users> listUsers = users;
-
+            List<users> listUsers = users.ToList();
             if (tbStart.Text != "" && tbFinish.Text != "")
             {
                 int start = Convert.ToInt32(tbStart.Text) - 1;
                 int finish = Convert.ToInt32(tbFinish.Text);
                 listUsers = users.Skip(start).Take(finish - start).ToList();
-
             }
-            if (dpDate.SelectedDate != null)
+            else if (dpDate.SelectedDate != null && cbGenderS.SelectedItem == null)
             {
                 listUsers = users.Where(x => x.dr == (DateTime)dpDate.SelectedDate).ToList();
             }
-            if (cbGenderS.SelectedItem != null)
+            else if (cbGenderS.SelectedItem != null && dpDate.SelectedDate == null)
             {
-
                 listUsers = users.Where(x => x.gender == Convert.ToInt32(cbGenderS.SelectedValue)).ToList();
+            }
+            else if (dpDate.SelectedDate != null && cbGenderS.SelectedItem != null)
+            {
+                listUsers = users.Where(x => x.dr == (DateTime)dpDate.SelectedDate && x.gender == Convert.ToInt32(cbGenderS.SelectedValue)).ToList();
             }
             lbUsers.ItemsSource = listUsers;
         }
@@ -75,6 +76,10 @@ namespace WpfApp.pages
         private void btnRset_Click(object sender, RoutedEventArgs e)
         {
             lbUsers.ItemsSource = users;
+            cbGenderS.SelectedItem = null;
+            dpDate.Text = null;
+            tbStart.Text = null;
+            tbFinish.Text = null;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

@@ -27,7 +27,7 @@ namespace WpfApp.pages
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            auth  CurrentUser = BaseConnect.BaseModel.auth.FirstOrDefault(x => x.login == txtLogin.Text && x.password == txtPassword.Password);
+            auth CurrentUser = BaseConnect.BaseModel.auth.FirstOrDefault(x => x.login == txtLogin.Text && x.password == txtPassword.Password);
             if (CurrentUser != null)
             {
                 switch (CurrentUser.role)
@@ -51,5 +51,7 @@ namespace WpfApp.pages
         {
             LoadPages.MainFrame.Navigate(new reg());
         }
+
+        
     }
 }

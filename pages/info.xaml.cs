@@ -30,17 +30,14 @@ namespace WpfApp.pages
             InitializeComponent();
             try
             {
-               
-                    tbName.Text = CurrentUser.users.name;
-                    tbDR.Text = CurrentUser.users.dr.ToString("yyyy MMMM dd");
-                    List<users_to_traits> LUTT = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == CurrentUser.id).ToList();
-                    foreach (users_to_traits UT in LUTT)
-                    {
-                        tbTraits.Text += UT.traits.trait + " ";
-                    }
-
-                    tbGender.Text = CurrentUser.users.genders.gender;
-               
+                tbName.Text = CurrentUser.users.name;
+                tbDR.Text = CurrentUser.users.dr.ToString("yyyy MMMM dd");
+                List<users_to_traits> LUTT = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == CurrentUser.id).ToList();
+                foreach (users_to_traits UT in LUTT)
+                {
+                    tbTraits.Text += UT.traits.trait + " ";
+                }
+                tbGender.Text = CurrentUser.users.genders.gender;
 
             }
             catch (Exception e)
