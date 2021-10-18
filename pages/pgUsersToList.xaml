@@ -10,22 +10,21 @@
     <Page.Resources>
         <DataTemplate x:Key="dtOutputUser">
             <GroupBox Header="Введите данные о себе">
-                <StackPanel>
-                    <GroupBox Header="Имя" >
-                        <TextBlock Text="{Binding name}"/>
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Имя">
+                        <TextBlock Text="{Binding name}"  />
                     </GroupBox>
                     <GroupBox Header="Дата рождения" >
-                        <TextBlock Text="{Binding dr,StringFormat={}{0:dd.MM.yyyy}}"/>
+                        <TextBlock Text="{Binding dr,StringFormat={}{0:dd.MM.yyyy}}" Width="60"  />
                     </GroupBox>
                     <GroupBox Header="Пол" >
-                        <TextBlock Text="{Binding genders.gender}"/>
+                        <TextBlock Text="{Binding genders.gender}" Width="60"/>
                     </GroupBox>
                     <GroupBox Header="Особенности">
-                        <ListBox Name="lbTraits" Loaded="lbTraits_Loaded" Uid="{Binding id}"></ListBox>
+                        <ListBox Name="lbTraits" Loaded="lbTraits_Loaded" Uid="{Binding id}" Height="25"></ListBox>
                     </GroupBox>
-                    <Button Content="Изменить" Name="btnChange" Style="{StaticResource BTN}" Click="btnChange_Click" Uid="{Binding id}" />
-                    <Button Content="Удалить" Name="btnDelete" Style="{StaticResource BTN}" Click="btnDelete_Click" Uid="{Binding id}" />
-
+                    <Button Content="Изменить" Name="btnChange" Style="{StaticResource BTN}" Click="btnChange_Click" Uid="{Binding id}" Width="60" />
+                    <Button Content="Удалить" Name="btnDelete" Style="{StaticResource BTN}" Click="btnDelete_Click" Uid="{Binding id}" Width="60" />
                 </StackPanel>
             </GroupBox>
         </DataTemplate>
@@ -35,13 +34,13 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="64*"/>
         </Grid.RowDefinitions>
-        <DockPanel>
+        <DockPanel Height="50" VerticalAlignment="Top">
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <GroupBox Header="От">
-                    <TextBox Name="tbStart" Width="50"></TextBox>
+                    <TextBox Name="tbStart" Width="50" FontSize="14"></TextBox>
                 </GroupBox>
                 <GroupBox Header="До">
-                    <TextBox Name="tbFinish" Width="50"></TextBox>
+                    <TextBox Name="tbFinish" Width="50" FontSize="14"></TextBox>
                 </GroupBox>
                 <GroupBox Header="Дата рождения">
                     <DatePicker Name="dpDate"></DatePicker>
@@ -49,15 +48,16 @@
                 <GroupBox Header="Пол">
                     <ComboBox Name="cbGenderS" Width="100"></ComboBox>
                 </GroupBox>
-                <Button Name="btnSort" Content="Отфильтровать" Click="btnSort_Click" Width="100" Margin="5"></Button>
-                <Button Name="btnRset" Content="Сбросить" Click="btnRset_Click" Width="60" Margin="5"></Button>
+                <StackPanel VerticalAlignment="Bottom">
+                    <Button Name="btnSort" Style="{StaticResource BTN}" Content="Отфильтровать" Click="btnSort_Click" ></Button>
+                    <Button Name="btnRset" Style="{StaticResource BTN}" Content="Сбросить" Click="btnRset_Click"  ></Button>
+                </StackPanel>
             </StackPanel>
             <GroupBox Header="Создать пользователя" HorizontalAlignment="Right">
-                <Button Content="Создать" Name="btnCreateUser" Click="btnCreateUser_Click"></Button>
+                <Button Content="Создать" Style="{StaticResource BTN}" Name="btnCreateUser" Click="btnCreateUser_Click"></Button>
             </GroupBox>
+            <Button Content="Назад" Name="btnBack" Style="{StaticResource BTN}" Width="50" Click="btnBack_Click"></Button>
         </DockPanel>
-        
-
         <ListBox Name="lbUsers" ItemTemplate="{StaticResource dtOutputUser}" Grid.RowSpan="2" Grid.Row="1"></ListBox>
     </Grid>
 </Page>

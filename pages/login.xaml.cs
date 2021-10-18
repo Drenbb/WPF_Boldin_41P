@@ -23,6 +23,7 @@ namespace WpfApp.pages
         public login()
         {
             InitializeComponent();
+            txtLogin.Focus();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -49,7 +50,7 @@ namespace WpfApp.pages
 
         private void btnReg_Click(object sender, RoutedEventArgs e)
         {
-            LoadPages.MainFrame.Navigate(new reg());
+            LoadPages.MainFrame.Navigate(new reg(1));
         }
 
         

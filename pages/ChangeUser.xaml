@@ -35,7 +35,7 @@
                         <CheckBox Name="cb2"/>
                         <CheckBox Name="cb3"/>
                     </StackPanel>
-                    <Button Content="Изменить" Name="btnChangeUser" Click="btnChangeUser_Click"></Button>
+                    <Button Content="Изменить" Name="btnChangeUser" Click="btnChangeUser_Click"  Style="{StaticResource BTN}" IsDefault="True"></Button>
                     <Button Content="Назад" Name="btnBack" Style="{StaticResource BTN}" Click="btnBack_Click"/>
                 </StackPanel>
             </GroupBox>

@@ -24,6 +24,7 @@ namespace WpfApp.pages
         public ChangeUser(auth CurrentUser)
         {
             InitializeComponent();
+            tbLogin.Focus();
             try
             {
                 tbLogin.Text = CurrentUser.login;
@@ -60,8 +61,6 @@ namespace WpfApp.pages
                         cb3.IsChecked = true;
                     }
                 }
-                string s = CurrentUser.users.genders.gender;
-                MessageBox.Show(s);
                 List<genders> genders = BaseConnect.BaseModel.genders.Where(x => x.gender != tbGender.Text).ToList();
                 listGenders.ItemsSource = genders;
                 listGenders.SelectedValuePath = "id";

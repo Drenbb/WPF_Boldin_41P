@@ -34,7 +34,7 @@
                             <CheckBox  Name="cb3"/>
                         </StackPanel>
                     </GroupBox>
-                    <Button Content="Записать" Name="btnReg" Style="{StaticResource BTN}" Click="btnReg_Click"/>
+                    <Button Content="Записать" Name="btnReg" Style="{StaticResource BTN}" Click="btnReg_Click" IsDefault="True"/>
                     <Button Content="Назад" Style="{StaticResource BTN}" Click="Button_Click"/>
                 </StackPanel>
             </GroupBox>

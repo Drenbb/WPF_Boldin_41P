@@ -20,9 +20,12 @@ namespace WpfApp.pages
     /// </summary>
     public partial class reg : Page
     {
-        public reg()
-        { 
+        public int ii;
+        public reg(int ii)
+        {
+            this.ii = ii;
             InitializeComponent();
+            txtLog.Focus();
             List<genders> genders = BaseConnect.BaseModel.genders.ToList();
             listGenders.ItemsSource = genders;
             listGenders.SelectedValuePath = "id";
@@ -42,7 +45,14 @@ namespace WpfApp.pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoadPages.MainFrame.GoBack();
+            if (ii == 1)
+            {
+                LoadPages.MainFrame.GoBack();
+            }
+            else
+            {
+                LoadPages.MainFrame.Navigate(new pgUsersToList());
+            }    
         }
 
         private void btnReg_Click(object sender, RoutedEventArgs e)

@@ -90,11 +90,19 @@ namespace WpfApp.pages
             BaseConnect.BaseModel.auth.Remove(CurrentUser);
             BaseConnect.BaseModel.SaveChanges();
             MessageBox.Show("Пользователь успешно удален!");
+            users = BaseConnect.BaseModel.users.ToList();
+            lbUsers.ItemsSource = users;
+
         }
 
         private void btnCreateUser_Click(object sender, RoutedEventArgs e)
         {
-            LoadPages.MainFrame.Navigate(new reg());
+            LoadPages.MainFrame.Navigate(new reg(2));
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPages.MainFrame.GoBack();
         }
     }
 }
