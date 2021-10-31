@@ -31,33 +31,55 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="64*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <DockPanel Height="50" VerticalAlignment="Top">
+        <DockPanel  VerticalAlignment="Top">
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <GroupBox Header="От">
-                    <TextBox Name="tbStart" Width="50" FontSize="14"></TextBox>
-                </GroupBox>
-                <GroupBox Header="До">
-                    <TextBox Name="tbFinish" Width="50" FontSize="14"></TextBox>
-                </GroupBox>
-                <GroupBox Header="Дата рождения">
-                    <DatePicker Name="dpDate"></DatePicker>
-                </GroupBox>
-                <GroupBox Header="Пол">
-                    <ComboBox Name="cbGenderS" Width="100"></ComboBox>
-                </GroupBox>
-                <StackPanel VerticalAlignment="Bottom">
-                    <Button Name="btnSort" Style="{StaticResource BTN}" Content="Отфильтровать" Click="btnSort_Click" ></Button>
+                <StackPanel Orientation="Vertical">
+                    <GroupBox Header="От">
+                        <TextBox Name="tbStart" Width="50" FontSize="14" TextChanged="Sort"></TextBox>
+                    </GroupBox>
+                    <GroupBox Header="До">
+                        <TextBox Name="tbFinish" Width="50" FontSize="14" TextChanged="Sort"></TextBox>
+                    </GroupBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <GroupBox Header="Дата рождения">
+                        <DatePicker Name="dpDate" SelectedDateChanged="Sort"></DatePicker>
+                    </GroupBox>
+                    <GroupBox Header="Пол">
+                        <ComboBox Name="cbGenderS" Width="100" SelectionChanged="Sort"></ComboBox>
+                    </GroupBox>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Top">
+                    <Button Name="btnSort" Style="{StaticResource BTN}" Content="Отфильтровать" Click="Sort" ></Button>
                     <Button Name="btnRset" Style="{StaticResource BTN}" Content="Сбросить" Click="btnRset_Click"  ></Button>
+                    <GroupBox Header="Имя">
+                        <TextBox Name="tbInputName" Width="100" TextChanged="Sort"></TextBox>
+                    </GroupBox>
                 </StackPanel>
             </StackPanel>
-            <GroupBox Header="Создать пользователя" HorizontalAlignment="Right">
+            <StackPanel VerticalAlignment="Top">
                 <Button Content="Создать" Style="{StaticResource BTN}" Name="btnCreateUser" Click="btnCreateUser_Click"></Button>
-            </GroupBox>
+                <Button Content="DLL" Style="{StaticResource BTN}" Name="btnDLL" Click="btnDLL_Click"></Button>
+                <GroupBox Header="Записей на странице">
+                    <TextBox x:Name="txtPageCount" TextChanged="txtPageCount_TextChanged" Margin="0,9,0.2,9.6"/>
+                </GroupBox>
+            </StackPanel>
+            <StackPanel x:Name="spPages" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
+                <TextBlock x:Name="txtPrev" Uid="prev" Text="Пред." MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txt1" Uid="1" Text=" 1 " MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txt2" Uid="2" Text=" 2 " MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txt3" Uid="3" Text=" 3 " MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txt4" Uid="4" Text=" 4 " MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txt5" Uid="5" Text=" 5 " MouseDown="GoPage_MouseDown"/>
+                <TextBlock x:Name="txtNext" Uid="next" Text="След.." MouseDown="GoPage_MouseDown"/>
+
+            </StackPanel>
+            <TextBlock x:Name="txtCurentPage"/>
             <Button Content="Назад" Name="btnBack" Style="{StaticResource BTN}" Width="50" Click="btnBack_Click"></Button>
         </DockPanel>
-        <ListBox Name="lbUsers" ItemTemplate="{StaticResource dtOutputUser}" Grid.RowSpan="2" Grid.Row="1"></ListBox>
+        <ListBox Name="lbUsers" ItemTemplate="{StaticResource dtOutputUser}" Grid.Row="1"/>
     </Grid>
 </Page>

@@ -1,0 +1,24 @@
+﻿<Page x:Class="WpfApp.pages.pgDLL"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="pgDLL">
+
+    <Grid>
+        <StackPanel>
+            <Button Content="Средний возраст пользователей" Name="btnAverage" Click="btnAverage_Click"></Button>
+            <TextBox Name="tbPathName"></TextBox>
+            <Button Content="Поиск по части имени" Name ="btnFindName" Click="btnFindName_Click"></Button>
+            <Button Content="Назад" Name="btnBack" Click="btnBack_Click"></Button>
+            <ScrollViewer>
+                <TextBlock x:Name="tbOutput"></TextBlock>
+            </ScrollViewer>
+        </StackPanel>
+        
+
+    </Grid>
+</Page>

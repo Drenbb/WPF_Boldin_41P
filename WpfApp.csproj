@@ -82,6 +82,9 @@
     <Compile Include="pages\ChangeUser.xaml.cs">
       <DependentUpon>ChangeUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pages\pgDLL.xaml.cs">
+      <DependentUpon>pgDLL.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pages\pgUsersToList.xaml.cs">
       <DependentUpon>pgUsersToList.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\pgDLL.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,6 +218,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLLCSharp\DLLCSharp.csproj">
+      <Project>{8eb6e3c7-98d4-49ff-9917-cfafc8fe3e7c}</Project>
+      <Name>DLLCSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
