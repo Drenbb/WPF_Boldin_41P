@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DLLCSharp;
+//using DLLCSharp;
 
 namespace WpfApp.pages
 {
@@ -23,10 +23,11 @@ namespace WpfApp.pages
     {
         List<users> users;
         List<users> listUsers;
+        PageChange pc = new PageChange();
         public pgUsersToList()
         {
             InitializeComponent();
-            spPages.Visibility = Visibility.Hidden;
+            pgPanel.Visibility = Visibility.Collapsed;
             users = BaseConnect.BaseModel.users.ToList();
             lbUsers.ItemsSource = users;
             listUsers = users;
@@ -34,6 +35,7 @@ namespace WpfApp.pages
             cbGenderS.ItemsSource = genders;
             cbGenderS.SelectedValuePath = "id";
             cbGenderS.DisplayMemberPath = "gender";
+            DataContext = pc;
 
         }
 
@@ -55,7 +57,6 @@ namespace WpfApp.pages
 
         private void Sort(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(listUsers.Count.ToString());
             try
             {
                 if (tbStart.Text != "" && tbFinish.Text != "")
@@ -73,6 +74,7 @@ namespace WpfApp.pages
             }
             catch (Exception d) { MessageBox.Show(d.Message); }
             lbUsers.ItemsSource = listUsers;
+            pc.Countlist = listUsers.Count;
         }
 
         private void btnRset_Click(object sender, RoutedEventArgs e)
@@ -82,6 +84,8 @@ namespace WpfApp.pages
             tbStart.Text = null;
             tbFinish.Text = null;
             lbUsers.ItemsSource = users;
+            listUsers = users;
+            txtPageCount.Text = null;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -114,126 +118,55 @@ namespace WpfApp.pages
 
 
 
-        int currpg = 1;
+
         private void GoPage_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            try
+            TextBlock tb = (TextBlock)sender;//определяем, какой текстовый блок был нажат           
+                                             //изменение номера страници при нажатии на кнопку
+            switch (tb.Uid)
             {
-                TextBlock tb = (TextBlock)sender;
-                int countList = users.Count;
-                int countzap = Convert.ToInt32(txtPageCount.Text);
-                int countpage = countList / countzap;
-                txtNext.Visibility = Visibility.Visible;
-                txtPrev.Visibility = Visibility.Visible;
-                switch (tb.Uid)
-                {
-                    case "prev":
-                        currpg--;
-                        break;
-                    case "1":
-                        if (currpg < 3) currpg = 1;
-                        else if (currpg > countpage) currpg = countpage - 4;
-                        else currpg -= 2;
-                        break;
-                    case "2":
-                        if (currpg < 3) currpg = 2;
-                        else if (currpg > countpage) currpg = countpage - 3;
-                        else currpg--;
-                        break;
-                    case "3":
-                        if (currpg < 3) currpg = 3;
-                        else if (currpg > countpage) currpg = countpage - 2;
-                        break;
-                    case "4":
-                        if (currpg < 3) currpg = 4;
-                        else if (currpg > countpage) currpg = countpage - 1;
-                        else currpg++;
-                        break;
-                    case "5":
-                        if (currpg < 3) currpg = 5;
-                        else if (currpg > countpage) currpg = countpage;
-                        else currpg += 2;
-                        break;
-                    case "next":
-                        currpg++;
-                        break;
-                    default:
-                        currpg = 1;
-                        break;
-                }
-
-                //отрисовка
-                if (currpg < 3)
-                {
-                    txt1.Text = " 1 ";
-                    txt2.Text = " 2 ";
-                    txt3.Text = " 3 ";
-                    txt4.Text = " 4 ";
-                    txt5.Text = " 5 ";
-                }
-                else if (currpg > countpage - 2)
-                {
-                    txt1.Text = " " + (countpage - 4).ToString() + " ";
-                    txt2.Text = " " + (countpage - 3).ToString() + " ";
-                    txt3.Text = " " + (countpage - 2).ToString() + " ";
-                    txt4.Text = " " + (countpage - 1).ToString() + " ";
-                    txt5.Text = " " + (countpage).ToString() + " ";
-
-                }
-                else
-                {
-                    txt1.Text = " " + (currpg - 2).ToString() + " ";
-                    txt2.Text = " " + (currpg - 1).ToString() + " ";
-                    txt3.Text = " " + (currpg).ToString() + " ";
-                    txt4.Text = " " + (currpg + 1).ToString() + " ";
-                    txt5.Text = " " + (currpg + 2).ToString() + " ";
-
-                }
-                txtCurentPage.Text = "Текущая страница: " + (currpg).ToString();
-
-                if (currpg < 1)
-                {
-                    currpg = 1;
-                    txtPrev.Visibility = Visibility.Hidden;
-                }
-
-                if (currpg == countpage)
-                {
-                    currpg = countpage;
-                    txtNext.Visibility = Visibility.Hidden;
-                }
-
-                listUsers = users.Skip(currpg * countzap - countzap).Take(countzap).ToList();
-                lbUsers.ItemsSource = listUsers;
+                case "prev":
+                    pc.CurrentPage--;
+                    break;
+                case "next":
+                    pc.CurrentPage++;
+                    break;
+                default:
+                    pc.CurrentPage = Convert.ToInt32(tb.Text);
+                    break;
             }
-            catch
-            {
 
-            }
+
+            //определение списка
+            lbUsers.ItemsSource = listUsers.Skip(pc.CurrentPage * pc.CountPage - pc.CountPage).Take(pc.CountPage).ToList();
+
+            txtCurrentPage.Text = "Текущая страница: " + (pc.CurrentPage).ToString();
+
         }
 
         private void txtPageCount_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                if (txtPageCount.Text == "")
+                if (txtPageCount.Text != "")
                 {
-                    listUsers = users.ToList();
-                    spPages.Visibility = Visibility.Hidden;
+                    pc.CountPage = Convert.ToInt32(txtPageCount.Text);
+                    pgPanel.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    listUsers = users.Take(Convert.ToInt32(txtPageCount.Text)).ToList();
-                    spPages.Visibility = Visibility.Visible;
+                    pgPanel.Visibility = Visibility.Collapsed;
+                    txtCurrentPage.Visibility = Visibility.Collapsed;
                 }
-
-
-                lbUsers.ItemsSource = listUsers;
+                
             }
             catch
             {
-
+                pc.CountPage = listUsers.Count;
             }
+            pc.Countlist = users.Count;
+            lbUsers.ItemsSource = listUsers.Skip(0).Take(pc.CountPage).ToList();
+            pc.CurrentPage = 1;
         }
     }
 }

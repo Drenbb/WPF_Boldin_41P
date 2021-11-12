@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DLLCSharp;
+//using DLLCSharp;
 
 namespace WpfApp.pages
 {
@@ -35,7 +35,7 @@ namespace WpfApp.pages
             {
                 dt.Add(u.dr);
             }
-            MessageBox.Show("Средний возраст пользователей" + Class1.averageDate(dt));
+            //MessageBox.Show("Средний возраст пользователей" + Class1.averageDate(dt));
 
         }
 
@@ -47,10 +47,10 @@ namespace WpfApp.pages
             {
                 names.Add(u.name);
             }
-            foreach (string s in Class1.findName(names, tbPathName.Text))
-            {
-                tbOutput.Text += s + "\n";
-            }
+            //foreach (string s in Class1.findName(names, tbPathName.Text))
+            //{
+            //    tbOutput.Text += s + "\n";
+            //}
 
         }
 

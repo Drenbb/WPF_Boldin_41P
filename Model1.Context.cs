@@ -31,5 +31,6 @@ namespace WpfApp
         public virtual DbSet<traits> traits { get; set; }
         public virtual DbSet<users> users { get; set; }
         public virtual DbSet<users_to_traits> users_to_traits { get; set; }
+        public virtual DbSet<usersimage> usersimage { get; set; }
     }
 }
