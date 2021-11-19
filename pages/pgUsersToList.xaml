@@ -9,24 +9,33 @@
       Title="pgUsersToList">
     <Page.Resources>
         <DataTemplate x:Key="dtOutputUser">
-            <GroupBox Header="Введите данные о себе">
-                <StackPanel Orientation="Horizontal">
-                    <GroupBox Header="Имя">
-                        <TextBlock Text="{Binding name}"  />
-                    </GroupBox>
-                    <GroupBox Header="Дата рождения" >
-                        <TextBlock Text="{Binding dr,StringFormat={}{0:dd.MM.yyyy}}" Width="60"  />
-                    </GroupBox>
-                    <GroupBox Header="Пол" >
-                        <TextBlock Text="{Binding genders.gender}" Width="60"/>
-                    </GroupBox>
-                    <GroupBox Header="Особенности">
-                        <ListBox Name="lbTraits" Loaded="lbTraits_Loaded" Uid="{Binding id}" Height="25"></ListBox>
-                    </GroupBox>
-                    <Button Content="Изменить" Name="btnChange" Style="{StaticResource BTN}" Click="btnChange_Click" Uid="{Binding id}" Width="60" />
-                    <Button Content="Удалить" Name="btnDelete" Style="{StaticResource BTN}" Click="btnDelete_Click" Uid="{Binding id}" Width="60" />
-                </StackPanel>
-            </GroupBox>
+            <!--<GroupBox Header="Введите данные о себе">-->
+            <StackPanel>
+                <GroupBox Header="Имя">
+                    <TextBlock Text="{Binding name}"  />
+                </GroupBox>
+                <GroupBox Header="Дата рождения" >
+                    <TextBlock Text="{Binding dr,StringFormat={}{0:dd.MM.yyyy}}"/>
+                </GroupBox>
+                <GroupBox Header="Пол" >
+                    <TextBlock Text="{Binding genders.gender}" Width="60"/>
+                </GroupBox>
+                <GroupBox Header="Особенности">
+                    <ListBox Name="lbTraits" Loaded="lbTraits_Loaded" Uid="{Binding id}" ></ListBox>
+                </GroupBox>
+                <GroupBox>
+                    <StackPanel>
+                        <Button Content="Изменить" Name="btnChange" Style="{StaticResource BTN}" Click="btnChange_Click" Uid="{Binding id}" />
+                        <Button Content="Удалить" Name="btnDelete" Style="{StaticResource BTN}" Click="btnDelete_Click" Uid="{Binding id}" />
+                    </StackPanel>
+                </GroupBox>
+                <!--Изображение пользователя-->
+                <Button x:Name="BtmAddImage" Content="Загрузить/изменить изображение пользователя" Click="BtmAddImage_Click" Uid="{Binding id}" Style="{StaticResource BTN}"/>
+                <Image x:Name="UserImage" Loaded="UserImage_Loaded" Uid="{Binding id}" Width="300" Height="300"/>
+                
+            </StackPanel>
+            <!--</GroupBox>-->
+
         </DataTemplate>
     </Page.Resources>
     <Grid>

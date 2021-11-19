@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -209,6 +210,9 @@
   <ItemGroup>
     <Resource Include="images\banners\sad_cat.jpeg" />
     <Resource Include="images\Ll.jpg" />
+    <Resource Include="images\female.jpg" />
+    <Resource Include="images\other.jpg" />
+    <Resource Include="images\male.jpg" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
