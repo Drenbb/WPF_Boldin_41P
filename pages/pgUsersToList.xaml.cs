@@ -181,10 +181,11 @@ namespace WpfApp.pages
             System.Windows.Controls.Image IMG = sender as System.Windows.Controls.Image;
             int ind = Convert.ToInt32(IMG.Uid);
             users U = BaseConnect.BaseModel.users.FirstOrDefault(x => x.id == ind);//запись о текущем пользователе
-            usersimage UI = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind);//получаем запись о картинке для текущего пользователя
+            usersimage UI = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind && x.avatar == true);//получаем запись о картинке для текущего пользователя
             BitmapImage BI = new BitmapImage();
             if (UI != null)//если для текущего пользователя существует запись о его катринке
             {
+
                 if (UI.path != null)//если присутствует путь к картинке
                 {
                     BI = new BitmapImage(new Uri(UI.path, UriKind.Relative));
@@ -195,7 +196,9 @@ namespace WpfApp.pages
                     BI.StreamSource = new MemoryStream(UI.image);//помещаем в источник данных двоичные данные из потока
                     BI.EndInit();//закончить инициализацию
                 }
+
             }
+
             else//если в базе не содержится картинки, то ставим заглушку
             {
                 switch (U.gender)//в зависимости от пола пользователя устанавливаем ту или иную картинку
@@ -224,13 +227,52 @@ namespace WpfApp.pages
             var result = openFileDialog.ShowDialog();
             if (result == true)//если файл выбран
             {
-                System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
-                ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
-                byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
-                usersimage UI = new usersimage() { id_user = ind, image = ByteArr };//создаем новый объект usersimage
-                BaseConnect.BaseModel.usersimage.Add(UI);//добавляем его в модель
-                BaseConnect.BaseModel.SaveChanges();//синхронизируем с базой
-                MessageBox.Show("картинка пользователя добавлена в базу");
+                usersimage avatar = new usersimage();//создаем новый объект usersimage
+                List<usersimage> U = BaseConnect.BaseModel.usersimage.Where(x => x.id_user == ind).ToList();//получаем запись о картинке для текущего пользователя
+                if (U != null)
+                {
+                    foreach (usersimage um in U)
+                    {
+                        if (um.avatar == true)
+                        {
+                            avatar = um;
+                        }
+                    }
+                }
+                if (avatar != null)
+                {
+                    if (MessageBox.Show("Сменить аватар пользователя?", "Вопрос", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
+                        ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
+                        byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
+                        usersimage UI = new usersimage() { id_user = ind, image = ByteArr, avatar = true };//создаем новый объект usersimage
+                        avatar.avatar = false;
+                        BaseConnect.BaseModel.usersimage.Add(UI);//добавляем его в модель
+                        BaseConnect.BaseModel.SaveChanges();//синхронизируем с базой
+                        MessageBox.Show("картинка пользователя добавлена в базу");
+                    }
+                    else
+                    {
+                        System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
+                        ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
+                        byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
+                        usersimage UI = new usersimage() { id_user = ind, image = ByteArr, avatar = false };//создаем новый объект usersimage
+                        BaseConnect.BaseModel.usersimage.Add(UI);//добавляем его в модель
+                        BaseConnect.BaseModel.SaveChanges();//синхронизируем с базой
+                        MessageBox.Show("картинка пользователя добавлена в базу");
+                    }
+                }
+                else
+                {
+                    System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
+                    ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
+                    byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
+                    usersimage UI = new usersimage() { id_user = ind, image = ByteArr, avatar = false };//создаем новый объект usersimage
+                    BaseConnect.BaseModel.usersimage.Add(UI);//добавляем его в модель
+                    BaseConnect.BaseModel.SaveChanges();//синхронизируем с базой
+                    MessageBox.Show("картинка пользователя добавлена в базу");
+                }
             }
             else
             {
@@ -238,6 +280,11 @@ namespace WpfApp.pages
             }
             users = BaseConnect.BaseModel.users.ToList();
             lbUsers.ItemsSource = users;
+        }
+
+        private void btnGoToGallery_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPages.MainFrame.Navigate(new pgGallery());
         }
     }
 }

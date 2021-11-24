@@ -87,6 +87,9 @@
     <Compile Include="pages\pgDLL.xaml.cs">
       <DependentUpon>pgDLL.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pages\pgGallery.xaml.cs">
+      <DependentUpon>pgGallery.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pages\pgUsersToList.xaml.cs">
       <DependentUpon>pgUsersToList.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\pgDLL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\pgGallery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
