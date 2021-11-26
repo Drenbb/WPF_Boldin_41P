@@ -19,46 +19,36 @@ namespace WpfApp.pages
     /// <summary>
     /// Логика взаимодействия для pgGallery.xaml
     /// </summary>
-   
+
     public partial class pgGallery : Page
     {
-        List<usersimage> users;
-        List<usersimage> listUsers;
-        public pgGallery()
+        List<usersimage> userImg;
+        int i, ii;
+
+        public pgGallery(users currentUser)
         {
             InitializeComponent();
-            users = BaseConnect.BaseModel.usersimage.ToList();
-            lbUsers.ItemsSource = users;
-            listUsers = users;
-
-        }
-
-        private void UserImage_Loaded(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Controls.Image IMG = sender as System.Windows.Controls.Image;
-            int ind = Convert.ToInt32(IMG.Uid);
-            users U = BaseConnect.BaseModel.users.FirstOrDefault(x => x.id == ind);//запись о текущем пользователе
-            usersimage UI = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind && x.avatar == true);//получаем запись о картинке для текущего пользователя
+            i = 0;
+            ii = 0;
             BitmapImage BI = new BitmapImage();
-            if (UI != null)//если для текущего пользователя существует запись о его катринке
+            usersimage check = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == currentUser.id);
+            if (check != null)
             {
-
-                if (UI.path != null)//если присутствует путь к картинке
+                userImg = BaseConnect.BaseModel.usersimage.Where(x => x.id_user == currentUser.id).ToList();
+                if (userImg[0].path != null)//если присутствует путь к картинке
                 {
-                    BI = new BitmapImage(new Uri(UI.path, UriKind.Relative));
+                    BI = new BitmapImage(new Uri(userImg[0].path, UriKind.Relative));
                 }
                 else//если присутствуют двоичные данные
                 {
                     BI.BeginInit();//начать инициализацию BitmapImage (для помещения данных из какого-либо потока)
-                    BI.StreamSource = new MemoryStream(UI.image);//помещаем в источник данных двоичные данные из потока
+                    BI.StreamSource = new MemoryStream(userImg[0].image);//помещаем в источник данных двоичные данные из потока
                     BI.EndInit();//закончить инициализацию
                 }
-
             }
-
-            else//если в базе не содержится картинки, то ставим заглушку
+            else
             {
-                switch (U.gender)//в зависимости от пола пользователя устанавливаем ту или иную картинку
+                switch (currentUser.gender)//в зависимости от пола пользователя устанавливаем ту или иную картинку
                 {
                     case 1:
                         BI = new BitmapImage(new Uri(@"/images/male.jpg", UriKind.Relative));
@@ -71,7 +61,78 @@ namespace WpfApp.pages
                         break;
                 }
             }
-            IMG.Source = BI;//помещаем картинку в image
+            userImages.Source = BI;
+        }
+
+        private void btnChange_Click(object sender, RoutedEventArgs e)
+        {
+            int a = userImg[i].id;
+            usersimage findUser = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id == a && x.avatar == false);
+            if (findUser == null)
+                MessageBox.Show("Данное фото уже является аватаром профиля");
+            else
+            {
+                a = userImg[i].id_user;
+                usersimage avatarUser = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.avatar == true && x.id_user == a);
+                findUser.avatar = true;
+                avatarUser.avatar = false;
+                BaseConnect.BaseModel.SaveChanges();
+                MessageBox.Show("Аватар пользователя изменен!");
+            }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPages.MainFrame.GoBack();
+        }
+
+        private void imgChange(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            BitmapImage BI2 = new BitmapImage();
+            switch (btn.Content)
+            {
+                case "Следующее":
+                    if (ii < userImg.Count - 1)
+                        ii++;
+                    else if (ii == userImg.Count)
+                        ii = userImg.Count - 1;
+                    i = ii;
+                    if (i < userImg.Count)
+                    {
+                        if (userImg[i].path != null)//если присутствует путь к картинке
+                        {
+                            BI2 = new BitmapImage(new Uri(userImg[i].path, UriKind.Relative));
+                        }
+                        else//если присутствуют двоичные данные
+                        {
+                            BI2.BeginInit();//начать инициализацию BitmapImage (для помещения данных из какого-либо потока)
+                            BI2.StreamSource = new MemoryStream(userImg[i].image);//помещаем в источник данных двоичные данные из потока
+                            BI2.EndInit();//закончить инициализацию
+                        }
+                        userImages.Source = BI2;
+                    }
+                    break;
+                case "Предыдущее":
+                    i = ii - 1;
+                    if (ii > 0)
+                        ii--;
+                    if (i >= 0)
+                    {
+                        if (userImg[i].path != null)//если присутствует путь к картинке
+                        {
+                            BI2 = new BitmapImage(new Uri(userImg[i].path, UriKind.Relative));
+                        }
+                        else//если присутствуют двоичные данные
+                        {
+                            BI2.BeginInit();//начать инициализацию BitmapImage (для помещения данных из какого-либо потока)
+                            BI2.StreamSource = new MemoryStream(userImg[i].image);//помещаем в источник данных двоичные данные из потока
+                            BI2.EndInit();//закончить инициализацию
+                        }
+                        userImages.Source = BI2;
+                    }
+                    break;
+            }
         }
     }
 }
