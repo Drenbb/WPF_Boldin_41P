@@ -23,13 +23,12 @@ namespace WpfApp.pages
     public partial class pgGallery : Page
     {
         List<usersimage> userImg;
-        int i, ii;
+        int i;
 
         public pgGallery(users currentUser)
         {
             InitializeComponent();
-            i = 0;
-            ii = 0;
+            i = 0;;
             BitmapImage BI = new BitmapImage();
             usersimage check = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == currentUser.id);
             if (check != null)
@@ -99,11 +98,10 @@ namespace WpfApp.pages
             switch (btn.Content)
             {
                 case "Следующее":
-                    if (ii < userImg.Count - 1)
-                        ii++;
-                    else if (ii == userImg.Count)
-                        ii = userImg.Count - 1;
-                    i = ii;
+                    if (i <userImg.Count - 1)
+                        i++;
+                    else 
+                        i = 0;
                     if (i < userImg.Count)
                     {
                         if (userImg[i].path != null)//если присутствует путь к картинке
@@ -120,13 +118,10 @@ namespace WpfApp.pages
                     }
                     break;
                 case "Предыдущее":
-                    i = ii - 1;
-                    if (ii > 1)
-                        ii--;
+                    if (i != 0)
+                        i--;
                     else
-                        ii = 1;
-                    MessageBox.Show("i" + i);
-                    MessageBox.Show("ii" + ii);
+                        i = userImg.Count - 1;
                     if (i >= 0)
                     {
                         if (userImg[i].path != null)//если присутствует путь к картинке
