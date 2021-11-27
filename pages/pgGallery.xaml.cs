@@ -34,7 +34,12 @@ namespace WpfApp.pages
             usersimage check = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == currentUser.id);
             if (check != null)
             {
-                userImg = BaseConnect.BaseModel.usersimage.Where(x => x.id_user == currentUser.id).ToList();
+                userImg = BaseConnect.BaseModel.usersimage.Where(x => x.id_user == currentUser.id && x.avatar == false).ToList();
+                usersimage avatarUser = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == currentUser.id && x.avatar == true);
+                if (avatarUser != null)
+                {
+                    userImg.Insert(0,avatarUser);
+                }
                 if (userImg[0].path != null)//если присутствует путь к картинке
                 {
                     BI = new BitmapImage(new Uri(userImg[0].path, UriKind.Relative));
@@ -115,8 +120,12 @@ namespace WpfApp.pages
                     break;
                 case "Предыдущее":
                     i = ii - 1;
-                    if (ii > 0)
+                    if (ii > 1)
                         ii--;
+                    else
+                        ii = 1;
+                    MessageBox.Show("i" + i);
+                    MessageBox.Show("ii" + ii);
                     if (i >= 0)
                     {
                         if (userImg[i].path != null)//если присутствует путь к картинке
