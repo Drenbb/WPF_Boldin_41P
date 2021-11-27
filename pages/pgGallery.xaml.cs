@@ -38,7 +38,7 @@ namespace WpfApp.pages
                 usersimage avatarUser = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == currentUser.id && x.avatar == true);
                 if (avatarUser != null)
                 {
-                    userImg.Insert(0,avatarUser);
+                    userImg.Insert(0, avatarUser);
                 }
                 if (userImg[0].path != null)//если присутствует путь к картинке
                 {
@@ -80,7 +80,8 @@ namespace WpfApp.pages
                 a = userImg[i].id_user;
                 usersimage avatarUser = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.avatar == true && x.id_user == a);
                 findUser.avatar = true;
-                avatarUser.avatar = false;
+                if (avatarUser != null)
+                    avatarUser.avatar = false;
                 BaseConnect.BaseModel.SaveChanges();
                 MessageBox.Show("Аватар пользователя изменен!");
             }
